@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>মক্তব রিপোর্ট</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      margin: auto;
+      padding: 0;
+    }
+    .container {
+      border: 4px;
+      border-radius: 10px;
+
+      width: 100%;
+      margin: auto;
+      padding: 20px;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #222;
+    }
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+      justify-content: center;
+    }
+    .stats button {
+      padding: 10px 15px;
+      border: none;
+      background: #007bff;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .stats button:hover {
+      background: #0056b3;
+    }
+    .search-box {
+      margin-bottom: 15px;
+      text-align: center;
+    }
+    .search-box input {
+      width: 90%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      table-layout: auto;
+    }
+    th, td {
+      border: 2px solid #555;
+      padding: 10px;
+      text-align: center;
+      white-space: nowrap;
+      min-width: 40px;
+      font-weight: bold;
+    }
+    th {
+      background: #333;
+      color: white;
+    }
+    .load-more {
+      text-align: center;
+      margin: 20px 0;
+    }
+    .load-more button {
+      padding: 10px 15px;
+      border: none;
+      background: #28a745;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .load-more button:hover {
+      background: #1e7e34;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>মক্তব রিপোর্ট</h2>
+
+    <!-- Top Buttons -->
+    <div class="stats">
+      <button onclick="showTotalStudents()">Total students</button>
+      <button onclick="showByDistrict()">jela students</button>
+      <button onclick="showToday()">Today</button>
+      <button onclick="showThisMonth()">Month</button>
+      <button onclick="showTotalMoney()">Total tk</button>
+      <button onclick="showTotalDeposit()">joma</button>
+    </div>
+
+    <!-- Search Box -->
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder=" সার্চ করুন" onkeyup="searchTable()" />
+    </div>
+
+    <!-- Data Table -->
+    <table id="dataTable">
+      <thead>
+        <tr>
+          <th>তারিখ</th>
+          <th>নাম</th>
+          <th>পিতা</th>
+          <th>মাতা</th>
+          <th>জেলা</th>
+          <th>উপজেলা</th>
+          <th>ফোন</th>
+          <th> আইডি</th>
+          <th>টাকা</th>
+          <th>জমা</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+
+    <!-- Load More Button -->
+    <div class="load-more">
+      <button id="loadMoreBtn" onclick="loadMore()">Load More</button>
+    </div>
+  </div>
+
+  <script>
+    const sheetURL =
+      "https://opensheet.elk.sh/1uzehSN2lGI6gNlM8w3eHEEbyZ14UcoRCBuOldH0Rljc/Sheet1";
+
+    let allData = [];
+    let displayIndex = 0;
+    const batchSize = 50;
+
+    async function fetchData() {
+      const res = await fetch(sheetURL);
+      allData = await res.json();
+      loadMore();
+    }
+
+    function loadMore() {
+      const tableBody = document.getElementById("tableBody");
+      const nextIndex = displayIndex + batchSize;
+      const chunk = allData.slice(displayIndex, nextIndex);
+
+      chunk.forEach((row) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${row.Timestamp}</td>
+          <td>${row.Name}</td>
+          <td>${row.Father}</td>
+          <td>${row.Mother}</td>
+          <td>${row.Jela}</td>
+          <td>${row.Opojela}</td>
+          <td><a href="tel:${row.Phone}">${row.Phone}</a></td>
+          <td>${row.StudentID}</td>
+          <td>${row.Taka}</td>
+          <td>${row.Joma}</td>
+        `;
+        tableBody.appendChild(tr);
+      });
+
+      displayIndex = nextIndex;
+
+      if (displayIndex >= allData.length) {
+        document.getElementById("loadMoreBtn").style.display = "none";
+      }
+    }
+
+    function searchTable() {
+      const value = document.getElementById("searchInput").value.toLowerCase();
+      const rows = document.querySelectorAll("#dataTable tbody tr");
+
+      rows.forEach((row) => {
+        row.style.display = row.innerText.toLowerCase().includes(value)
+          ? ""
+          : "none";
+      });
+    }
+
+    function showTotalStudents() {
+      alert(`Total: ${allData.length}`);
+    }
+
+    function showByDistrict() {
+      const map = {};
+      allData.forEach((d) => {
+        map[d.Jela] = (map[d.Jela] || 0) + 1;
+      });
+
+      let text = "jela:\n";
+      Object.keys(map).forEach((jela) => {
+        text += `${jela}: ${map[jela]} student\n`;
+      });
+
+      alert(text);
+    }
+
+    function showToday() {
+      const today = new Date().toISOString().split("T")[0];
+      const count = allData.filter((d) => d.Timestamp.startsWith(today)).length;
+      alert(`today: ${count} student`);
+    }
+
+    function showThisMonth() {
+      const now = new Date();
+      const month = now.getMonth() + 1;
+      const year = now.getFullYear();
+
+      const count = allData.filter((d) => {
+        const date = new Date(d.Timestamp);
+        return (
+          date.getMonth() + 1 === month &&
+          date.getFullYear() === year
+        );
+      }).length;
+
+      alert(`month: ${count} studen`);
+    }
+
+    function showTotalMoney() {
+      const total = allData.reduce((sum, d) => sum + Number(d.Taka || 0), 0);
+      alert(`Total tk: ${total} tk`);
+    }
+
+    function showTotalDeposit() {
+      const total = allData.reduce((sum, d) => sum + Number(d.joma || 0), 0);
+      alert(`joma: ${total} tk`);
+    }
+
+    fetchData();
+  </script>
+</body>
+</html>
