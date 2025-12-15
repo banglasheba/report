@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Promoter Report</title>
+
+<style>
+    body {font-family: Arial, sans-serif; background:#f3f3f3; margin:auto; padding:0px;}
+  .container{max-width:1000px;margin:18px auto;padding:8px}
+  
+    h2{text-align:center;}
+
+    .top-buttons{
+        display:flex;
+        gap:10px;
+        flex-wrap:wrap;
+        margin-bottom:20px;
+        justify-content:center;
+    }
+
+    button{
+        padding:10px 18px;
+        background:#0066ff;
+        border:none;
+        color:white;
+        cursor:pointer;
+        border-radius:5px;
+        font-size:14px;
+    }
+
+    #searchBar{
+        width:100%;
+        padding:12px;
+        border:1px solid #ccc;
+        margin-bottom:15px;
+        border-radius:5px;
+        font-size:16px;
+    }
+
+    table{
+        width:200%;
+        border-collapse: collapse;
+        background:white;
+    }
+    th,td{
+        padding:0px;
+        border:1px solid #ddd;
+        text-align:left;
+    }
+    th{background:#0066ff; color:white;}
+
+    #loadMore{
+        display:block;
+        margin:20px auto;
+        padding:10px 20px;
+        font-size:16px;
+        border-radius:6px;
+        background:#28a745;
+        color:white;
+        border:none;
+        cursor:pointer;
+    }
+  .btn {display:inline-block; margin:20px auto; padding:12px 20px; background:#b30000; color:white; border:none; border-radius:5px; cursor:pointer;}
+    form {display:none; background:#fff; padding:20px; margin:20px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1);}
+    form input, form select, form textarea {width:100%; padding:10px; margin:8px 0; border:1px solid #ddd; border-radius:5px;}
+  
+</style>
+
+</head>
+<body>
+
+<h2>বাংলা সেবা প্রোমোটার রিপোর্ট</h2>
+
+<div class="top-buttons">
+    <button onclick="showTotalPromoter()">Total </button>
+    <button onclick="showCategoryCount()">Category </button>
+    <button onclick="showJelaCount()">Jela </button>
+    <button onclick="showOpojelaCount()">Opojela</button>
+</div>
+<!-- Admission Button -->
+  <button class="btn" onclick="toggleForm()">Add promoter</button>
+  
+  <!-- Admission Form (hidden by default) -->
+  <form id="admitionForm" onsubmit="submitForm(event)">
+  <input type="text" id="name" placeholder="name" required>
+    <select type="text" id="category">
+      <option value="">category</option>
+      <option value="fbid">fbid</option>
+      <option value="fbpage">fbpage</option>
+      <option value="fbgroup">fbgroup</option>
+      <option value="youtuber">youtuber</option>
+      <option value="tiktoker">tiktoker</option>
+    </select>
+    <input type="text" id="jela" placeholder="jela" required>
+    <input type="text" id="opojela" placeholder="opojela" required>
+    <input type="tel" id="phone" placeholder="phone" required>
+    <input type="text" id="whatsapp" placeholder="whatsapp" required>
+    <input type="mail" id="email" placeholder="mail" required>
+  <input type="text" id="link" placeholder="link" required>
+  <input type="text" id="follower" placeholder="follower" required>
+    
+    
+  <button type="submit" class="btn">submit</button>
+</form>
+  
+<input type="text" id="searchBar" placeholder="name / number/mail..." onkeyup="searchTable()">
+
+<table id="dataTable">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Jela</th>
+            <th>Opojela</th>
+            <th>Phone</th>
+            <th>Whatsapp</th>
+            <th>Email</th>
+            <th>Link</th>
+            <th>Follower</th>
+        </tr>
+    </thead>
+    <tbody id="tableBody"></tbody>
+</table>
+
+<button id="loadMore" onclick="loadMoreRows()">Load More</button>
+
+<script>
+
+// ⭐ OpenSheet লিংক – এখানে তোমার লিংক বসাও ⭐
+const sheetURL = "https://opensheet.elk.sh/1A53bs9JG5w-1XGNJ1H0b9HH-toN29J2QnL30llQdkS0/SHEET1";
+
+let allData = [];
+let visibleCount = 50; // প্রথমে 5০টি দেখাবে
+
+// ডেটা লোড করা
+fetch(sheetURL)
+    .then(res => res.json())
+    .then(data => {
+        allData = data;
+        loadTable();
+    });
+
+function loadTable(){
+    const table = document.getElementById("tableBody");
+    table.innerHTML = "";
+
+    let showData = allData.slice(0, visibleCount);
+
+    showData.forEach(row => {
+        let tr = `
+        <tr>
+            <td>${row.Name}</td>
+            <td>${row.Category}</td>
+            <td>${row.Jela}</td>
+            <td>${row.Opojela}</td>
+
+            <td><a href="tel:${row.Phone}">${row.Phone}</a></td>
+
+            <td><a href="https://wa.me/${row.Whatsapp}" target="_blank">${row.Whatsapp}</a></td>
+
+            <td><button onclick="sendMail('${row.Email}')">Mail</button></td>
+
+            <td><button onclick="openLink('${row.Link}')">Enter</button></td>
+
+            <td>${row.Follower}</td>
+        </tr>
+        `;
+        table.innerHTML += tr;
+    });
+
+    // Load More Hide Logic
+    if (visibleCount >= allData.length) {
+        document.getElementById("loadMore").style.display = "none";
+    }
+}
+
+function loadMoreRows(){
+    visibleCount += 50;
+    loadTable();
+}
+
+function sendMail(email){
+    window.location.href = `mailto:${email}`;
+}
+
+function openLink(url){
+    window.open(url, "_blank");
+}
+
+// মোট প্রোমোটার
+function showTotalPromoter(){
+    alert("Total: " + allData.length);
+}
+
+// ক্যাটাগরি গণনা
+function showCategoryCount(){
+    let count = {};
+    allData.forEach(x => {
+        count[x.Category] = (count[x.Category] || 0) + 1;
+    });
+
+    let msg = "category:\n\n";
+    for(let c in count){
+        msg += `${c}: ${count[c]} people\n`;
+    }
+    alert(msg);
+}
+
+// জেলা রিপোর্ট
+function showJelaCount(){
+    let count = {};
+    allData.forEach(x => {
+        count[x.Jela] = (count[x.Jela] || 0) + 1;
+    });
+
+    let msg = "jela:\n\n";
+    for(let j in count){
+        msg += `${j}: ${count[j]} people\n`;
+    }
+    alert(msg);
+}
+
+// উপজেলা রিপোর্ট
+function showOpojelaCount(){
+    let count = {};
+    allData.forEach(x => {
+        count[x.Opojela] = (count[x.Opojela] || 0) + 1;
+    });
+
+    let msg = "opojela:\n\n";
+    for(let u in count){
+        msg += `${u}: ${count[u]} people\n`;
+    }
+    alert(msg);
+}
+
+// সার্চ সিস্টেম
+function searchTable(){
+    let value = document.getElementById("searchBar").value.toLowerCase();
+
+    let filtered = allData.filter(row =>
+        row.Name.toLowerCase().includes(value) ||
+        row.Phone.toLowerCase().includes(value) ||
+        row.Email.toLowerCase().includes(value)
+    );
+
+    visibleCount = filtered.length; // সার্চ হলে সব দেখাবে
+    allData = filtered;
+    loadTable();
+}
+
+  // Form Toggle
+  function toggleForm(){
+    const form=document.getElementById("admitionForm");
+    form.style.display=form.style.display==="block"?"none":"block";
+  }
+
+  // Submit Form (Google Apps Script)
+  const scriptURL = "https://script.google.com/macros/s/AKfycbzEXy5A-VWEM7NUJNDLpwEdneQ13InQGEpnGtBk1UYiCwxR-ygRhi8XMawPYzzlJDfX/exec";
+
+  async function submitForm(e){
+    e.preventDefault();
+
+    const data = {
+      name: document.getElementById("name").value,
+      category: document.getElementById("category").value,
+      jela: document.getElementById("jela").value,
+      opojela: document.getElementById("opojela").value,
+      phone: document.getElementById("phone").value,
+      whatsapp: document.getElementById("whatsapp").value,
+      email: document.getElementById("email").value,
+      link: document.getElementById("link").value,
+      follower: document.getElementById("follower").value,
+    };
+
+    try {
+      await fetch(scriptURL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+
+      alert("student successfully added");
+      document.getElementById("admitionForm").reset();
+
+    } catch (err) {
+      alert(" Error: " + err.message);
+    }
+  } 
+  
+</script>
+
+</body>
+</html>
