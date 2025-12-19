@@ -210,7 +210,7 @@
   const y = now.getFullYear();
 
   const count = allData.filter((row) => {
-    const t = new Date(d.Timestamp);
+    const t = new Date(row.Timestamp);
     return (
       t.getDate() === d &&
       t.getMonth() === m &&
