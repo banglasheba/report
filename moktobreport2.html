@@ -204,10 +204,22 @@
     }
 
     function showToday() {
-      const today = new Date().toISOString().split("T")[0];
-      const count = allData.filter((d) => d.Timestamp.startsWith(today)).length;
-      alert(`today: ${count} student`);
-    }
+  const now = new Date();
+  const d = now.getDate();
+  const m = now.getMonth();
+  const y = now.getFullYear();
+
+  const count = allData.filter((row) => {
+    const t = new Date(d.Timestamp);
+    return (
+      t.getDate() === d &&
+      t.getMonth() === m &&
+      t.getFullYear() === y
+    );
+  }).length;
+
+  alert(`Today: ${count} student`);
+}
 
     function showThisMonth() {
       const now = new Date();
