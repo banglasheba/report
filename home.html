@@ -1,93 +1,189 @@
-<!DOCTYPE html>
-<html lang="bn">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>home</title>
+<div class="bd-location-page">
+  
+  <!-- Title -->
+  <h1 class="page-title">admin homepage</h1>
+  
+  <!-- Slider -->
+  
+  <!-- 🔍 Search -->
+  <input type="text" id="searchBox" placeholder="searching report..." />
+<br>
+   <button class="button" onclick="location.href='https://banglasheba.github.io/report/promoter.html'">promoter</button>
+  <!-- 🌏 Division Section -->
+  <div class="division-list">
+    
+    <!-- কেনাকাটা বিভাগ -->
+    <div class="division">
+      <h3 class="division-title" onclick="toggleDistricts(this)"> কেনাকাটা</h3>
+      <div class="district-list">
+        
+        
+      </div>
 
+    <!-- শিক্ষা বিভাগ -->
+    <div class="division">
+      <h3 class="division-title" onclick="toggleDistricts(this)">শিক্ষা</h3>
+      <div class="district-list">
+        <a href="https://banglasheba.github.io/report/moktobreport2.html" class="district">মক্তব ছাত্র</a>
+        
+      </div>
+    </div>
+
+    <!-- চিকিতসা বিভাগ -->
+    <div class="division">
+      <h3 class="division-title" onclick="toggleDistricts(this)">চিকিতসা</h3>
+      <div class="district-list">
+        <a href="https://banglasheba.github.io/report/blooddonorreport.html" class="district">রক্তদান রিপোর্ট</a>
+        
+      </div>
+    </div>
+    <!-- ডিজিটাল বিভাগ -->
+    <div class="division">
+      <h3 class="division-title" onclick="toggleDistricts(this)">ডিজিটাল সেবা</h3>
+      <div class="district-list">
+        
+       
+      </div>
+    </div>
+<!-- সমাজিক বিভাগ -->
+    <div class="division">
+      <h3 class="division-title" onclick="toggleDistricts(this)">সমাজিক সেবা</h3>
+      <div class="district-list">
+        <a href="https://banglasheba.github.io/report/bosrodan.html" class="district">বস্রদান রিপোর্ট</a>
+        
+      </div>
+    </div>
+      <!-- কাজকর্ম বিভাগ -->
+    <div class="division">
+      <h3 class="division-title" onclick="toggleDistricts(this)">কাজকর্ম</h3>
+      <div class="district-list">
+        <a href="https://banglasheba.github.io/report/sebakormi.html" class="district">সেবাকর্মি নিয়োগ</a>
+      
+      </div>
+    </div>
+      <!-- কৃষি বিভাগ -->
+    <div class="division">
+      <h3 class="division-title" onclick="toggleDistricts(this)">কৃষি সেবা</h3>
+      <div class="district-list">
+       
+        
+      </div>
+    </div>
+      
+      
+      
+  </div>
+</div>
+
+ <!-- collapsible -->
+
+
+
+
+
+
+
+<!-- 🌈 CSS -->
 <style>
-body{
-  font-family: Arial, sans-serif;
-  margin:0;
-  background:#f5f5f5;
+  .button {
+  margin:15px; padding:10px 24px; border:none; border-radius:15px; cursor:pointer;
+  font-size:25px;
+  background:#006400; color:white;
 }
+  
+.bd-location-page {
+  max-width: 800px;
+  margin: auto;
+  font-family: 'Noto Sans Bengali', sans-serif;
+  padding: 15px;
+}
+  .page-title {text-align:center; font-size:28px; margin-bottom:15px;}
+#searchBox {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  font-size: 16px;
+}
+.slider-container {width:100%; overflow:hidden; margin-bottom:20px;}
+.slider {display:flex; animation:slide 12s infinite;}
+.slider img {width:100%; flex-shrink:0; border-radius:10px;}
 
-/* Menu bar */
-.menu{
-  display:flex;
-  justify-content:center;
-  background:#0b5ed7;
-  position:sticky;
-  top:0;
+@keyframes slide {
+  0% {transform:translateX(0);}
+  33% {transform:translateX(-100%);}
+  66% {transform:translateX(-200%);}
+  100% {transform:translateX(0);}
 }
-.menu a{
-  color:#fff;
-  text-decoration:none;
-  padding:15px 20px;
-  font-size:16px;
+  
+.division {
+  background: #f8f9fa;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
-.menu a:hover{
-  background:#084298;
+.division-title {
+  background: linear-gradient(135deg,#009688,#00796b);
+  color: white;
+  padding: 12px 15px;
+  margin: 0;
+  font-size: 18px;
+  cursor: pointer;
+  user-select: none;
 }
-
-/* Section title */
-.section-title{
-  text-align:center;
-  font-size:22px;
-  margin:25px 0 10px;
+.district-list {
+  display: none;
+  padding: 10px;
+  animation: fadeIn .4s ease;
 }
-
-/* District grid */
-.districts{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
-  gap:10px;
-  padding:15px;
+.district {
+  display: inline-block;
+  margin: 5px;
+  padding: 8px 12px;
+  background: #e0f2f1;
+  color: #004d40;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: 0.3s;
 }
-.districts a{
-  background:#fff;
-  padding:12px;
-  text-align:center;
-  text-decoration:none;
-  color:#000;
-  border-radius:6px;
-  box-shadow:0 2px 5px rgba(0,0,0,0.1);
+.district:hover {
+  background: #009688;
+  color: white;
 }
-.districts a:hover{
-  background:#e7f1ff;
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+@media (max-width:600px){
+  .district {font-size:14px; padding:7px 10px;}
 }
 </style>
-</head>
 
-<body>
+<!-- ⚙️ JS -->
+<script>
+function toggleDistricts(el){
+  const next = el.nextElementSibling;
+  const open = document.querySelectorAll('.district-list');
+  open.forEach(x => { if(x !== next) x.style.display = 'none'; });
+  next.style.display = (next.style.display==='block') ? 'none' : 'block';
+}
 
-<!-- MENU BAR -->
-<div class="menu">
-  <a href="#dhaka">shopping</a>
-  <a href="#chittagong">education</a>
-  <a href="#sylhet">healt</a>
-</div>
-
-<!-- DHAKA -->
-<h2 id="dhaka" class="section-title">ঢাকা বিভাগ</h2>
-<div class="districts">
-  <a href="/dhaka">ঢাকা</a>
-  
-</div>
-
-<!-- CHITTAGONG -->
-<h2 id="chittagong" class="section-title">চট্টগ্রাম বিভাগ</h2>
-<div class="districts">
-  <a href="/chittagong">চট্টগ্রাম</a>
-  
-</div>
-
-<!-- SYLHET -->
-<h2 id="sylhet" class="section-title">সিলেট বিভাগ</h2>
-<div class="districts">
-  <a href="/sylhet">সিলেট</a>
-  
-</div>
-
-</body>
-</html>
+// 🔍 Search Filter
+document.getElementById("searchBox").addEventListener("input", function(){
+  const query = this.value.toLowerCase();
+  document.querySelectorAll(".division").forEach(div => {
+    const title = div.querySelector(".division-title").textContent.toLowerCase();
+    const districts = div.querySelectorAll(".district");
+    let found = false;
+    districts.forEach(d => {
+      const text = d.textContent.toLowerCase();
+      d.style.display = text.includes(query) || title.includes(query) ? "inline-block" : "none";
+      if(text.includes(query) || title.includes(query)) found = true;
+    });
+    div.style.display = found || title.includes(query) ? "block" : "none";
+    div.querySelector(".district-list").style.display = query ? "block" : "none";
+  });
+});
+</script>
