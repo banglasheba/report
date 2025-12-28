@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>পাঠাগার ডেটাবোর্ড</title>
+
+<style>
+    body{
+        font-family: Arial;
+        padding: 20px;
+        background:#f4f4f4;
+    }
+    h1{
+        text-align:center;
+        margin-bottom:20px;
+    }
+
+    .top-buttons{
+        display:flex;
+        gap:10px;
+        margin-bottom:20px;
+    }
+    button{
+        padding:10px 20px;
+        background:#3498db;
+        color:#fff;
+        border:none;
+        border-radius:5px;
+        cursor:pointer;
+        font-size:16px;
+    }
+    button:hover{
+        background:#2980b9;
+    }
+
+    .search-bar{
+        width:100%;
+        padding:10px;
+        margin-bottom:20px;
+        font-size:16px;
+    }
+
+    table{
+        width:100%;
+        border-collapse: collapse;
+        background:white;
+    }
+    th, td{
+        border:1px solid #ddd;
+        padding:10px;
+        text-align:left;
+    }
+    th{
+        background:#3498db;
+        color:white;
+    }
+
+    .hidden {
+        display:none;
+    }
+</style>
+</head>
+
+<body>
+
+<h1>পাঠাগার — ডেটাবোর্ড</h1>
+
+<!-- TOP BUTTONS -->
+<div class="top-buttons">
+    <button onclick="showTotalDonation()">Total books</button>
+    <button onclick="showAddressCount()">category</button>
+    <button onclick="showCategoryCount()">sabcategory</button>
+</div>
+
+<!-- SEARCH BAR -->
+<input type="text" id="searchBox" class="search-bar" placeholder="নাম, নম্বর, কোড, ঠিকানা বা কেটাগরি সার্চ করুন…" onkeyup="searchTable()">
+
+<!-- DATA TABLE -->
+<table id="dataTable">
+    <thead>
+        <tr>
+            <th>TimeStamp</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Whatsapp</th>
+            <th>Category</th>
+            <th>Code</th>
+            <th>Description</th>
+            <th>Image</th>
+        </tr>
+    </thead>
+    <tbody id="tableBody"></tbody>
+</table>
+
+
+<script>
+// 🟦 Google Sheet → OpenSheet API URL
+const sheetURL = "https://opensheet.elk.sh/1d0r_mgnZ8KHURgmN0Sx-yAKyXsN4GSHR-Bt_ZnQ7eWQ/Sheet2";
+
+// 🟦 Load Data
+fetch(sheetURL)
+.then(res => res.json())
+.then(data => {
+    loadTable(data);
+    window.dataset = data;   // store for button stats
+});
+
+// 🟦 Load data into table
+function loadTable(data){
+    const tbody = document.getElementById("tableBody");
+    tbody.innerHTML = "";
+
+    data.forEach(row => {
+        let tr = document.createElement("tr");
+
+        tr.innerHTML = `
+            <td>${row.Timestamp}</td>
+            <td>${row.Pname}</td>
+            <td>${row.Address}</td>
+
+            <td><a href="https://wa.me/${row.Whatsapp}" target="_blank">${row.Whatsapp}</a></td>
+
+            <td>${row.Category}</td>
+            <td>${row.Code}</td>
+
+            <td>
+                <button onclick="alert('${row.Description.replace(/'/g, "\\'")}')">Show</button>
+            </td>
+
+            <td>
+                <button onclick="window.open('${row.Image}', '_blank')">View</button>
+            </td>
+        `;
+
+        tbody.appendChild(tr);
+    });
+}
+
+
+// 🟦 Search Function
+function searchTable(){
+    let filter = document.getElementById("searchBox").value.toLowerCase();
+    let trs = document.getElementById("dataTable").getElementsByTagName("tr");
+
+    for(let i=1; i<trs.length; i++){
+        let rowText = trs[i].innerText.toLowerCase();
+        trs[i].style.display = rowText.includes(filter) ? "" : "none";
+    }
+}
+
+
+// 🟦 Total Donation Count
+function showTotalDonation(){
+    alert("Total books: " + window.dataset.length);
+}
+
+
+// 🟦 Address Count
+function showAddressCount(){
+    let count = {};
+
+    window.dataset.forEach(d => {
+        if(!count[d.Address]) count[d.Address] = 0;
+        count[d.Address]++;
+    });
+
+    let msg = "category:\n\n";
+    for(let a in count){
+        msg += `${a}: ${count[a]} book\n`;
+    }
+
+    alert(msg);
+}
+
+
+// 🟦 Category Count
+function showCategoryCount(){
+    let count = {};
+
+    window.dataset.forEach(d => {
+        if(!count[d.Category]) count[d.Category] = 0;
+        count[d.Category]++;
+    });
+
+    let msg = "subcategory:\n\n";
+    for(let c in count){
+        msg += `${c}: ${count[c]} book\n`;
+    }
+
+    alert(msg);
+}
+
+</script>
+
+</body>
+</html>
