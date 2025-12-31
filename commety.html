@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bangla sheba commety</title>
+
+<style>
+    body{
+        font-family: Arial;
+        padding: 10px;
+        background:#f4f4f4;
+    }
+  .container{max-width:1000px;margin:18px auto;padding:16px}
+  
+    h1{
+        text-align:center;
+        margin-bottom:20px;
+    }
+
+    .top-buttons{
+        display:flex;
+        gap:10px;
+        margin-bottom:20px;
+    }
+    button{
+        padding:10px 20px;
+        background:#3498db;
+        color:#fff;
+        border:none;
+        border-radius:5px;
+        cursor:pointer;
+        font-size:16px;
+    }
+    button:hover{
+        background:#2980b9;
+    }
+
+    .search-bar{
+        width:100%;
+        padding:10px;
+        margin-bottom:20px;
+        font-size:16px;
+    }
+
+    table{
+        width:100%;
+        border-collapse: collapse;
+        background:white;
+    }
+    th, td{
+        border:1px solid #ddd;
+        padding:10px;
+        text-align:left;
+    }
+    th{
+        background:#3498db;
+        color:white;
+    }
+
+    .hidden {
+        display:none;
+    }
+  
+  /* Modal */
+    .modal {display:none; position:fixed; top:0; left:0; width:70%; height:90%; background:rgba(0,0,0,0.6); justify-content:center; align-items:center;}
+    .modal-content {background:white; padding:20px; border-radius:10px; width:90%; max-width:700px;}
+    .modal-content input, textarea, select {width:100%; margin-bottom:10px; padding:8px; border:1px solid #ccc; border-radius:5px;}
+    .close {float:right; cursor:pointer; color:red;}
+  
+</style>
+</head>
+
+<body>
+
+<h1>Bangla sheba commety</h1>
+
+<!-- TOP BUTTONS -->
+<div class="top-buttons">
+    <button onclick="showTotalDonation()">Total </button>
+    <button onclick="showAddressCount()">Address</button>
+    <button onclick="showCategoryCount()">position</button>
+</div>
+ <button class="donate-btn" onclick="openDonateForm()">Add commety</button>
+  
+  <!-- Donate Form Modal -->
+  <div id="donateModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeDonateForm()">close</span>
+      <h3>commety form</h3>
+      <input type="text" id="dPname" placeholder=" full name">
+      <select id="dAddress" required>
+        <option value="">এরিয়া নির্বাচন</option>
+         <option>বাংলাদেশ</option>
+        <option>চট্টগ্রাম</option>
+  <option>কক্সবাজার</option>
+  <option>বান্দরবান</option>
+  <option>রাঙ্গামাটি</option>
+  <option>খাগড়াছড়ি</option>
+  <option>ফেনী</option>
+  <option>নোয়াখালী</option>
+  <option>লক্ষ্মীপুর</option>
+  <option>চাঁদপুর</option>
+  <option>কুমিল্লা</option>
+  <option>ব্রাহ্মণবাড়িয়া</option>
+    
+    
+    <option>ঢাকা</option>
+  <option>গাজীপুর</option>
+  <option>কিশোরগঞ্জ</option>
+  <option>মানিকগঞ্জ</option>
+  <option>মুন্সীগঞ্জ</option>
+  <option>নারায়ণগঞ্জ</option>
+  <option>নরসিংদী</option>
+  <option>ফরিদপুর</option>
+  <option>গোপালগঞ্জ</option>
+  <option>মাদারীপুর</option>
+  <option>রাজবাড়ী</option>
+  <option>শরীয়তপুর</option> 
+    
+    <option>বরগুনা</option>
+  <option>বরিশাল</option>
+  <option>ভোলা</option>
+  <option>ঝালকাঠি</option>
+  <option>পটুয়াখালী</option>
+  <option>পিরোজপুর</option>
+
+  <option>বগুড়া</option>
+  <option>জয়পুরহাট</option>
+  <option>নওগাঁ</option>
+  <option>নাটোর</option>
+  <option>চাঁপাইনবাবগঞ্জ</option>
+  <option>পাবনা</option>
+  <option>সিরাজগঞ্জ</option>
+ 
+
+  <option>খুলনা</option>
+  <option>বাগেরহাট</option>
+  <option>চুয়াডাঙ্গা</option>
+  <option>যশোর</option>
+  <option>ঝিনাইদহ</option>
+  <option>কুষ্টিয়া</option>
+  <option>মাগুরা</option>
+  <option>মেহেরপুর</option>
+  <option>নড়াইল</option>
+  <option>সাতক্ষীরা</option>
+
+  <option>ময়মনসিংহ</option>
+  <option>নেত্রকোনা</option>
+  <option>জামালপুর</option>
+  <option>শেরপুর</option>
+
+  <option>রাজশাহী</option>
+  <option>চাঁপাইনবাবগঞ্জ</option>
+  <option>নওগাঁ</option>
+  <option>নাটোর</option>
+  <option>পাবনা</option>
+  <option>বগুড়া</option>
+  <option>জয়পুরহাট</option>
+  <option>সিরাজগঞ্জ</option>
+
+  <option>রংপুর</option>
+  <option>দিনাজপুর</option>
+  <option>গাইবান্ধা</option>
+  <option>কুড়িগ্রাম</option>
+  <option>লালমনিরহাট</option>
+  <option>নীলফামারী</option>
+  <option>পঞ্চগড়</option>
+  <option>ঠাকুরগাঁও</option>
+
+  <option>সিলেট</option>
+  <option>মৌলভীবাজার</option>
+  <option>হবিগঞ্জ</option>
+  <option>সুনামগঞ্জ</option>
+      </select>
+      
+      <select id="dCategory" required>
+        <option value="">পদের কেটাগরি</option>
+       
+        <option>জেলা সভাপতি</option>
+        <option>উপজেলা সভাপতি</option>
+        <option>কেন্দ্রিয় সহসভাপতি</option>
+        <option>জেলা সহসভাপতি</option>
+        <option>উপজেলা সহসভাপতি</option>
+        <option>কেন্দ্রিয় সাধারন সম্পাদক</option>
+        <option>জেলা সাধারন সম্পাদক</option>
+        <option>উপজেলা সাধারন সম্পাদক</option>
+        
+      </select>
+      <input type="text" id="dCode" placeholder="code 6 digit">
+      <input type="mail" id="dEmail" placeholder="email">
+      <textarea id="dDescription" placeholder="description"></textarea>
+      <input type="text" id="dWhatsapp" placeholder="WhatsAp 880">
+      <input type="text" id="dImage" placeholder="image">
+      <button onclick="submitDonate()">submit</button>
+    </div>
+  </div>
+  
+  
+<!-- SEARCH BAR -->
+<input type="text" id="searchBox" class="search-bar" placeholder=" সার্চ করুন…" onkeyup="searchTable()">
+
+<!-- DATA TABLE -->
+<table id="dataTable">
+    <thead>
+        <tr>
+            <th>TimeStamp</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Whatsapp</th>
+            <th>position</th>
+            <th>Code</th>
+          <th>Email</th>
+            <th>Description</th>
+            <th>Image</th>
+        </tr>
+    </thead>
+    <tbody id="tableBody"></tbody>
+</table>
+
+
+<script>
+// 🟦 Google Sheet → OpenSheet API URL
+const sheetURL = "https://opensheet.elk.sh/1wEzdJn1nNH4LO3Z77mviGrA6m7m8-rac_xnKbyxBuI0/Sheet1";
+
+// 🟦 Load Data
+fetch(sheetURL)
+.then(res => res.json())
+.then(data => {
+    loadTable(data);
+    window.dataset = data;   // store for button stats
+});
+
+// 🟦 Load data into table
+function loadTable(data){
+    const tbody = document.getElementById("tableBody");
+    tbody.innerHTML = "";
+
+    data.forEach(row => {
+        let tr = document.createElement("tr");
+
+        tr.innerHTML = `
+            <td>${row.TimeStamp}</td>
+            <td>${row.Pname}</td>
+            <td>${row.Address}</td>
+
+            <td><a href="https://wa.me/${row.Whatsapp}" target="_blank">${row.Whatsapp}</a></td>
+
+            <td>${row.Category}</td>
+            <td>${row.Code}</td>
+            <td><button onclick="sendMail('${row.Email}')">Mail</button></td>
+
+            <td>
+                <button onclick="alert('${row.Description.replace(/'/g, "\\'")}')">Show</button>
+            </td>
+            <td><button onclick="sendMail('${row.Email}')">Mail</button></td>
+
+            <td>
+                <button onclick="window.open('${row.Image}', '_blank')">View</button>
+            </td>
+        `;
+
+        tbody.appendChild(tr);
+    });
+}
+
+  function sendMail(email){
+    window.location.href = `mailto:${email}`;
+}
+
+function openLink(url){
+    window.open(url, "_blank");
+}
+  
+
+// 🟦 Search Function
+function searchTable(){
+    let filter = document.getElementById("searchBox").value.toLowerCase();
+    let trs = document.getElementById("dataTable").getElementsByTagName("tr");
+
+    for(let i=1; i<trs.length; i++){
+        let rowText = trs[i].innerText.toLowerCase();
+        trs[i].style.display = rowText.includes(filter) ? "" : "none";
+    }
+}
+
+
+// 🟦 Total Donation Count
+function showTotalDonation(){
+    alert("Total people: " + window.dataset.length);
+}
+
+
+// 🟦 Address Count
+function showAddressCount(){
+    let count = {};
+
+    window.dataset.forEach(d => {
+        if(!count[d.Address]) count[d.Address] = 0;
+        count[d.Address]++;
+    });
+
+    let msg = "Address count:\n\n";
+    for(let a in count){
+        msg += `${a}: ${count[a]} people\n`;
+    }
+
+    alert(msg);
+}
+
+
+// 🟦 Category Count
+function showCategoryCount(){
+    let count = {};
+
+    window.dataset.forEach(d => {
+        if(!count[d.Category]) count[d.Category] = 0;
+        count[d.Category]++;
+    });
+
+    let msg = "Category count :\n\n";
+    for(let c in count){
+        msg += `${c}: ${count[c]} people\n`;
+    }
+
+    alert(msg);
+}
+
+  // Donate Form
+    function openDonateForm(){document.getElementById("donateModal").style.display="flex";}
+    function closeDonateForm(){document.getElementById("donateModal").style.display="none";}
+    function submitDonate(){
+      const d={Pname:dPname.value,Address:dAddress.value,Whatsapp:dWhatsapp.value,Category:dCategory.value,Code:dCode.value,Email:dEmail.value,Description:dDescription.value,Image:dImage.value};
+      fetch("https://script.google.com/macros/s/AKfycbxqjmIq5-sQjkY3A_xr0HWInodvD2tjNxhKiwa9pl9VtF6d6cwyFAUMHfuOFG-w8wJ7/exec",{method:"POST",body:JSON.stringify(d)})
+      .then(()=>{alert(" successully done ");closeDonateForm();});
+    }
+  
+</script>
+
+</body>
+</html>
