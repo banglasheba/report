@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>primary health</title>
+
+<style>
+    body{
+        font-family: Arial;
+        padding: 20px;
+        background:#f4f4f4;
+    }
+    h1{
+        text-align:center;
+        margin-bottom:20px;
+    }
+
+    .top-buttons{
+        display:flex;
+        gap:10px;
+        margin-bottom:20px;
+    }
+    button{
+        padding:10px 20px;
+        background:#3498db;
+        color:#fff;
+        border:none;
+        border-radius:5px;
+        cursor:pointer;
+        font-size:16px;
+    }
+    button:hover{
+        background:#2980b9;
+    }
+
+    .search-bar{
+        width:100%;
+        padding:10px;
+        margin-bottom:20px;
+        font-size:16px;
+    }
+
+    table{
+        width:100%;
+        border-collapse: collapse;
+        background:white;
+    }
+    th, td{
+        border:1px solid #ddd;
+        padding:10px;
+        text-align:left;
+    }
+    th{
+        background:#3498db;
+        color:white;
+    }
+
+    .hidden {
+        display:none;
+    }
+  
+  /* Modal */
+    .modal {display:none; position:fixed; top:0; left:0; width:70%; height:80%; background:rgba(0,0,0,0.6); justify-content:center; align-items:center;}
+    .modal-content {background:white; padding:20px; border-radius:10px; width:90%; max-width:700px;}
+    .modal-content input, textarea, select {width:100%; margin-bottom:10px; padding:8px; border:1px solid #ccc; border-radius:5px;}
+    .close {float:right; cursor:pointer; color:red;}
+    #loadMoreBtn {display:block; margin:20px auto; background:#007bff; color:white; border:none; padding:10px 20px; border-radius:5px; cursor:pointer;}
+</style>
+</head>
+
+<body>
+
+<h1>প্রাথমিক রিপোর্ট</h1>
+
+  
+<!-- TOP BUTTONS -->
+<div class="top-buttons">
+    <button onclick="showTotalDonation()">Total health</button>
+    <button onclick="showAddressCount()">health</button>
+    <button onclick="showCategoryCount()">work</button>
+</div>
+
+  <button class="donate-btn" onclick="openDonateForm()"> Add </button>
+  
+   <!-- Donate Form Modal -->
+  <div id="donateModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeDonateForm()">close</span>
+      <h3> প্রাথমিক চিকিতসা সেবা যুক্ত করুন</h3>
+      <input type="text" id="dPname" placeholder="চিকিতসা নাম">
+      <select id="dAddress" required onchange="updateCategory()">  
+      <option value="">প্রাথমিক চিকিতসা</option>  
+        <option value="">No</option> 
+      <option value="emergency_care">জরুরি অবস্থা</option>
+<option value="burns_fire">আগুন ও পোড়া</option>
+<option value="animal_insect">প্রাণী ও পোকামাকড়ের ক্ষত</option>
+<option value="accident_injury">দুর্ঘটনা ও আঘাত</option>
+<option value="water_emergency">পানি ও ডুবে যাওয়া</option>
+<option value="poisoning">বিষক্রিয়া</option>
+<option value="temperature_related">তাপমাত্রাজনিত সমস্যা</option>
+<option value="common_illness">সাধারণ অসুস্থতা</option>
+<option value="heart_breathing">হৃদযন্ত্র ও শ্বাস-প্রশ্বাস সমস্যা</option>
+<option value="eye_ear_nose">চোখ, কান, নাক</option>
+<option value="child_first_aid">শিশুর প্রাথমিক চিকিৎসা</option>
+<option value="maternal_emergency">মাতৃস্বাস্থ্য জরুরি</option>
+<option value="environmental_hazard">পরিবেশগত বিপদ</option>
+
+    </select> 
+      
+     <select id="dCategory">  
+      <option value=""> প্রাথমিক কাজ</option>  
+       <option value=""> No</option> 
+      <option value="emergency_care">জরুরি অবস্থা</option>
+<option value="burns_fire">আগুন ও পোড়া</option>
+<option value="animal_insect">প্রাণী ও পোকামাকড়ের ক্ষত</option>
+<option value="accident_injury">দুর্ঘটনা ও আঘাত</option>
+<option value="water_emergency">পানি ও ডুবে যাওয়া</option>
+<option value="poisoning">বিষক্রিয়া</option>
+<option value="temperature_related">তাপমাত্রাজনিত সমস্যা</option>
+<option value="common_illness">সাধারণ অসুস্থতা</option>
+<option value="heart_breathing">হৃদযন্ত্র ও শ্বাস-প্রশ্বাস সমস্যা</option>
+<option value="eye_ear_nose">চোখ, কান, নাক</option>
+<option value="child_first_aid">শিশুর প্রাথমিক চিকিৎসা</option>
+<option value="maternal_emergency">মাতৃস্বাস্থ্য জরুরি</option>
+<option value="environmental_hazard">পরিবেশগত বিপদ</option>
+
+    </select> 
+      
+      <textarea id="dDescription" placeholder="চিকিতসা সম্পর্কে বিস্তারিত"></textarea>
+      
+      <button onclick="submitDonate()">সাবমিট</button>
+    </div>
+  </div>
+  
+<!-- SEARCH BAR -->
+<input type="text" id="searchBox" class="search-bar" placeholder="নাম, নম্বর, কোড, ঠিকানা বা কেটাগরি সার্চ করুন…" onkeyup="searchTable()">
+
+<!-- DATA TABLE -->
+<table id="dataTable">
+    <thead>
+        <tr>
+            <th>TimeStamp</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Whatsapp</th>
+            <th>Category</th>
+            <th>Code</th>
+            <th>Description</th>
+            <th>Image</th>
+        </tr>
+    </thead>
+    <tbody id="tableBody"></tbody>
+</table>
+
+
+<script>
+// 🟦 Google Sheet → OpenSheet API URL
+const sheetURL = "https://opensheet.elk.sh/1ieBa-5w-TRVCFNXIcM4iA7EPjUsQawr7Tqk8mBYzCQ0/Sheet2";
+
+// 🟦 Load Data
+fetch(sheetURL)
+.then(res => res.json())
+.then(data => {
+    loadTable(data);
+    window.dataset = data;   // store for button stats
+});
+
+// 🟦 Load data into table
+function loadTable(data){
+    const tbody = document.getElementById("tableBody");
+    tbody.innerHTML = "";
+
+    data.forEach(row => {
+        let tr = document.createElement("tr");
+
+        tr.innerHTML = `
+            <td>${row.Timestamp}</td>
+            <td>${row.Pname}</td>
+            <td>${row.Address}</td>
+
+            <td><a href="https://wa.me/${row.Whatsapp}" target="_blank">${row.Whatsapp}</a></td>
+
+            <td>${row.Category}</td>
+            <td>${row.Code}</td>
+
+            <td>
+                <button onclick="alert('${row.Description.replace(/'/g, "\\'")}')">Show</button>
+            </td>
+
+            <td>
+                <button onclick="window.open('${row.Image}', '_blank')">View</button>
+            </td>
+        `;
+
+        tbody.appendChild(tr);
+    });
+}
+
+
+// 🟦 Search Function
+function searchTable(){
+    let filter = document.getElementById("searchBox").value.toLowerCase();
+    let trs = document.getElementById("dataTable").getElementsByTagName("tr");
+
+    for(let i=1; i<trs.length; i++){
+        let rowText = trs[i].innerText.toLowerCase();
+        trs[i].style.display = rowText.includes(filter) ? "" : "none";
+    }
+}
+
+
+// 🟦 Total Donation Count
+function showTotalDonation(){
+    alert("Total : " + window.dataset.length);
+}
+
+
+// 🟦 Address Count
+function showAddressCount(){
+    let count = {};
+
+    window.dataset.forEach(d => {
+        if(!count[d.Address]) count[d.Address] = 0;
+        count[d.Address]++;
+    });
+
+    let msg = "category:\n\n";
+    for(let a in count){
+        msg += `${a}: ${count[a]} health\n`;
+    }
+
+    alert(msg);
+}
+
+
+// 🟦 Category Count
+function showCategoryCount(){
+    let count = {};
+
+    window.dataset.forEach(d => {
+        if(!count[d.Category]) count[d.Category] = 0;
+        count[d.Category]++;
+    });
+
+    let msg = "subcategory:\n\n";
+    for(let c in count){
+        msg += `${c}: ${count[c]} work\n`;
+    }
+
+    alert(msg);
+}
+
+// Donate Form
+    function openDonateForm(){document.getElementById("donateModal").style.display="flex";}
+    function closeDonateForm(){document.getElementById("donateModal").style.display="none";}
+    function submitDonate(){
+      const d={Pname:dPname.value,Address:dAddress.value,Category:dCategory.value,Description:dDescription.value};
+      fetch("https://script.google.com/macros/s/AKfycbzbhj64Gd7mCsvh1634S8XoTHUoLH0qBTA1DTsnBDR49KBkN6GEa3WRLqUDo5bVsX1l/exec",{method:"POST",body:JSON.stringify(d)})
+      .then(()=>{alert(" successully done ");closeDonateForm();});
+       document.getElementById("donateModal").reset();
+    }
+  
+  
+</script>
+
+</body>
+</html>
