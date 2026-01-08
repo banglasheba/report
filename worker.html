@@ -79,15 +79,16 @@
 <div class="top-buttons">
     <button onclick="showTotalDonation()">Total </button>
     <button onclick="showAddressCount()">Address</button>
-    <button onclick="showCategoryCount()">position</button>
+    <button onclick="showCategoryCount()">category</button>
+    <button onclick="showPositionCount()">position</button>
 </div>
- <button class="donate-btn" onclick="openDonateForm()">Add commety</button>
+ <button class="donate-btn" onclick="openDonateForm()">Add worker</button>
   
   <!-- Donate Form Modal -->
   <div id="donateModal" class="modal">
     <div class="modal-content">
       <span class="close" onclick="closeDonateForm()">close</span>
-      <h3>commety form</h3>
+      <h3>Add worker form</h3>
       <input type="text" id="dPname" placeholder=" full name">
       <select id="dAddress" required>
         <option value="">এরিয়া নির্বাচন</option>
@@ -174,19 +175,24 @@
   <option>সুনামগঞ্জ</option>
       </select>
       
-      <select id="dCategory" required>
-        <option value="">পদের কেটাগরি</option>
-       
-        <option>জেলা সভাপতি</option>
-        <option>উপজেলা সভাপতি</option>
-        <option>কেন্দ্রিয় সহসভাপতি</option>
-        <option>জেলা সহসভাপতি</option>
-        <option>উপজেলা সহসভাপতি</option>
-        <option>কেন্দ্রিয় সাধারন সম্পাদক</option>
-        <option>জেলা সাধারন সম্পাদক</option>
-        <option>উপজেলা সাধারন সম্পাদক</option>
-        
+      
+<select id="dCategory" required>
+        <option value="">কাজের কেটাগরি</option>
+        <option>কেনাকাটা</option>
+        <option>শিক্ষা</option>
+        <option>চিকিতসা</option>
+        <option>ডিজিটাল</option>
+        <option>সমাজিক</option>
+        <option>কৃষি</option>
       </select>
+        
+        <select id="dPosition" required>
+        <option value="">কাজের লেভেল</option>
+        <option>পরিচালক</option>
+        <option>সহকারি পরিচালক</option>
+       
+      </select>
+        
       <input type="text" id="dCode" placeholder="code 6 digit">
       <input type="mail" id="dEmail" placeholder="email">
       <textarea id="dDescription" placeholder="description"></textarea>
@@ -208,6 +214,7 @@
             <th>Name</th>
             <th>Address</th>
             <th>Whatsapp</th>
+            <th>Category</th>
             <th>position</th>
             <th>Code</th>
           <th>Email</th>
@@ -247,13 +254,14 @@ function loadTable(data){
             <td><a href="https://wa.me/${row.Whatsapp}" target="_blank">${row.Whatsapp}</a></td>
 
             <td>${row.Category}</td>
+            <td>${row.Position}</td>
             <td>${row.Code}</td>
             <td><button onclick="sendMail('${row.Email}')">Mail</button></td>
 
             <td>
                 <button onclick="alert('${row.Description.replace(/'/g, "\\'")}')">Show</button>
             </td>
-            <td><button onclick="sendMail('${row.Email}')">Mail</button></td>
+          
 
             <td>
                 <button onclick="window.open('${row.Image}', '_blank')">View</button>
@@ -325,14 +333,30 @@ function showCategoryCount(){
 
     alert(msg);
 }
+// 🟦 position Count
+function showPositionCount(){
+    let count = {};
 
+    window.dataset.forEach(d => {
+        if(!count[d.Position]) count[d.Position] = 0;
+        count[d.Position]++;
+    });
+
+    let msg = "Position count :\n\n";
+    for(let c in count){
+        msg += `${c}: ${count[c]} people\n`;
+    }
+
+    alert(msg);
+}
+    
   // Donate Form
     function openDonateForm(){document.getElementById("donateModal").style.display="flex";}
     function closeDonateForm(){document.getElementById("donateModal").style.display="none";}
     function submitDonate(){
-      const d={Pname:dPname.value,Address:dAddress.value,Whatsapp:dWhatsapp.value,Category:dCategory.value,Code:dCode.value,Email:dEmail.value,Description:dDescription.value,Image:dImage.value};
-      fetch("https://script.google.com/macros/s/AKfycbxqjmIq5-sQjkY3A_xr0HWInodvD2tjNxhKiwa9pl9VtF6d6cwyFAUMHfuOFG-w8wJ7/exec",{method:"POST",body:JSON.stringify(d)})
-      .then(()=>{alert(" successully done ");closeDonateForm();});
+      const d={Pname:dPname.value,Address:dAddress.value,Whatsapp:dWhatsapp.value,Category:dCategory.value,Position:dPosition.value,Code:dCode.value,Email:dEmail.value,Description:dDescription.value,Image:dImage.value};
+      fetch("https://script.google.com/macros/s/AKfycby1trE42BzvijCpbZ_qdmpsx1wcrDPInDldyBsYK-UOrwSGoICupoRtH2j3JUjY_asr/exec",{method:"POST",body:JSON.stringify(d)})
+      .then(()=>{alert("Add worker successully done ");closeDonateForm();});
     }
   
 </script>
