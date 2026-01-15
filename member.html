@@ -201,7 +201,7 @@ function showCategoryCount(){
         count[x.Category] = (count[x.Category] || 0) + 1;
     });
 
-    let msg = "category:\n\n";
+    let msg = "social :\n\n";
     for(let c in count){
         msg += `${c}: ${count[c]} people\n`;
     }
@@ -229,7 +229,7 @@ function showOpojelaCount(){
         count[x.Opojela] = (count[x.Opojela] || 0) + 1;
     });
 
-    let msg = "opojela:\n\n";
+    let msg = "category:\n\n";
     for(let u in count){
         msg += `${u}: ${count[u]} people\n`;
     }
