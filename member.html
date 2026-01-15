@@ -79,21 +79,22 @@
     <button onclick="showOpojelaCount()">Opojela</button>
 </div>
 <!-- Admission Button -->
-  <button class="btn" onclick="toggleForm()">Add sodosso</button>
+  <button class="btn" onclick="toggleForm()">Add member</button>
   
   <!-- Admission Form (hidden by default) -->
   <form id="admitionForm" onsubmit="submitForm(event)">
   <input type="text" id="name" placeholder="name" required>
     <select type="text" id="category">
       <option value="">category</option>
-      <option value="fbid">fbid</option>
-      <option value="fbpage">fbpage</option>
-      <option value="fbgroup">fbgroup</option>
-      <option value="youtuber">youtuber</option>
-      <option value="tiktoker">tiktoker</option>
+      <option value="fbid">facebook</option>
+      <option value="fbpage">page</option>
+      <option value="fbgroup">group</option>
+      <option value="youtuber">youtube</option>
+      <option value="tiktoker">tiktok</option>
+        <option value="tiktoker">website</option>
     </select>
-    <input type="text" id="jela" placeholder="jela" required>
-    <input type="text" id="opojela" placeholder="opojela" required>
+    <input type="text" id="jela" placeholder="address" required>
+    <input type="text" id="opojela" placeholder="work" required>
     <input type="tel" id="phone" placeholder="phone" required>
     <input type="text" id="whatsapp" placeholder="whatsapp" required>
     <input type="mail" id="email" placeholder="mail" required>
@@ -111,8 +112,8 @@
         <tr>
             <th>Name</th>
             <th>Category</th>
-            <th>Jela</th>
-            <th>Opojela</th>
+            <th>Address</th>
+            <th>Work</th>
             <th>Phone</th>
             <th>Whatsapp</th>
             <th>Email</th>
