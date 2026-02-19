@@ -70,12 +70,12 @@
 </head>
 <body>
 
-<h2>বাংলা সেবা সদস্য রিপোর্ট</h2>
+<h2>মেডিয়া রিপোর্ট</h2>
 
 <div class="top-buttons">
     <button onclick="showTotalPromoter()">Total </button>
-    <button onclick="showCategoryCount()"> social </button>
-    <button onclick="showJelaCount()"> Address </button>
+    <button onclick="showCategoryCount()">social </button>
+    <button onclick="showJelaCount()">Address</button>
     <button onclick="showOpojelaCount()">Category</button>
 </div>
 <!-- Admission Button -->
@@ -86,15 +86,39 @@
   <input type="text" id="name" placeholder="name" required>
     <select type="text" id="category">
       <option value="">social </option>
-      <option value="fbid">facebook</option>
-      <option value="fbpage">page</option>
-      <option value="fbgroup">group</option>
-      <option value="youtuber">youtube</option>
-      <option value="tiktoker">tiktok</option>
-        <option value="tiktoker">website</option>
+      <option>facebook</option>
+      <option>page</option>
+      <option>group</option>
+      <option>youtube</option>
+      <option>tiktok</option>
+        <option>website</option>
+<option>whatsappgroup</option>
+<option>instagram</option>
+        <option>twitter</option>
     </select>
+      
+      <select type="text" id="opjela">
+      <option value="">category</option>
+      <option>image</option>
+      <option>video</option>
+      <option>content</option>
+      <option>blog</option>
+      <option>political</option>
+       <option>mankind</option>
+<option>fun</option>
+<option>buziness</option>
+<option>education</option>
+         <option>health</option> 
+<option>digital</option>
+          <option>socail service</option>
+<option>agriculture</option>
+          
+    </select>
+      
     <input type="text" id="jela" placeholder="address" required>
-    <input type="text" id="opojela" placeholder="Category" required>
+   
+
+          
     <input type="tel" id="phone" placeholder="phone" required>
     <input type="text" id="whatsapp" placeholder="whatsapp" required>
     <input type="mail" id="email" placeholder="mail" required>
@@ -215,7 +239,7 @@ function showJelaCount(){
         count[x.Jela] = (count[x.Jela] || 0) + 1;
     });
 
-    let msg = "jela:\n\n";
+    let msg = "address:\n\n";
     for(let j in count){
         msg += `${j}: ${count[j]} people\n`;
     }
