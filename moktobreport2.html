@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>মক্তব রিপোর্ট</title>
+  <title>education of religion</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -89,17 +89,20 @@
 </head>
 <body>
   <div class="container">
-    <h2>মক্তব রিপোর্ট</h2>
+    <h2>Education Of religion</h2>
 
     <!-- Top Buttons -->
     <div class="stats">
-      <button onclick="showTotalStudents()">Total students</button>
-      <button onclick="showByDistrict()">jela students</button>
+      <button onclick="showTotalStudents()">Total ST</button>
+      <button onclick="showByDistrict()">Distric ST</button>
+      <button onclick="showByCode()">Code ST</button>
       <button onclick="showToday()">Today</button>
       <button onclick="showThisMonth()">Month</button>
+      <!-- 
       <button onclick="showTotalMoney()">Total tk</button>
       <button onclick="showTotalDeposit()">joma</button>
     </div>
+      -->
 
     <!-- Search Box -->
     <div class="search-box">
@@ -110,16 +113,16 @@
     <table id="dataTable">
       <thead>
         <tr>
-          <th>তারিখ</th>
-          <th>নাম</th>
-          <th>পিতা</th>
-          <th>মাতা</th>
-          <th>জেলা</th>
-          <th>উপজেলা</th>
-          <th>ফোন</th>
-          <th> আইডি</th>
-          <th>টাকা</th>
-          <th>জমা</th>
+          <th>Date</th>
+          <th>Name</th>
+          <th>Address</th>
+          <th>Phone</th>
+          <th>Institution</th>
+          <th>Code</th>
+          <th>Religion</th>
+          <th>Price</th>
+          <th>Details</th>
+          <th>Whatsapp</th>
         </tr>
       </thead>
       <tbody id="tableBody"></tbody>
@@ -153,16 +156,17 @@
       chunk.forEach((row) => {
         const tr = document.createElement("tr");
         tr.innerHTML = `
-          <td>${row.Timestamp}</td>
+          <td>${row.TimeStamp}</td>
           <td>${row.Name}</td>
-          <td>${row.Father}</td>
-          <td>${row.Mother}</td>
-          <td>${row.Jela}</td>
-          <td>${row.Opojela}</td>
+          <td>${row.Address}</td>
           <td><a href="tel:${row.Phone}">${row.Phone}</a></td>
-          <td>${row.StudentID}</td>
-          <td>${row.Taka}</td>
-          <td>${row.Joma}</td>
+          <td>${row.Product}</td>
+          <td>${row.Code}</td>
+          <td>${row.Category}</td>
+          
+          <td>${row.Price}</td>
+          <td>${row.Details}</td>
+          <td>${row.Whatsapp}</td>
         `;
         tableBody.appendChild(tr);
       });
@@ -192,17 +196,32 @@
     function showByDistrict() {
       const map = {};
       allData.forEach((d) => {
-        map[d.Jela] = (map[d.Jela] || 0) + 1;
+        map[d.Address] = (map[d.Address] || 0) + 1;
       });
 
-      let text = "jela:\n";
-      Object.keys(map).forEach((jela) => {
-        text += `${jela}: ${map[jela]} student\n`;
+      let text = "Address:\n";
+      Object.keys(map).forEach((Address) => {
+        text += `${Address}: ${map[Address]} student\n`;
       });
 
       alert(text);
     }
 
+function showByCode() {
+      const map = {};
+      allData.forEach((d) => {
+        map[d.Code] = (map[d.code] || 0) + 1;
+      });
+
+      let text = "Code:\n";
+      Object.keys(map).forEach((Address) => {
+        text += `${Code}: ${map[Code]} student\n`;
+      });
+
+      alert(text);
+    }
+
+    
     function showToday() {
   const now = new Date();
   const d = now.getDate();
