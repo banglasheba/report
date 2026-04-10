@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>education of religion</title>
+  <title>Institution of religion</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -89,13 +89,13 @@
 </head>
 <body>
   <div class="container">
-    <h2>student Of religion</h2>
+    <h2>Institution Of religion</h2>
 
     <!-- Top Buttons -->
     <div class="stats">
-      <button onclick="showTotalStudents()">Total ST</button>
-      <button onclick="showByDistrict()">Distric ST</button>
-      <button onclick="showByCode()">Code ST</button>
+      <button onclick="showTotalStudents()">Total </button>
+      <button onclick="showByDistrict()">Distric </button>
+      <button onclick="showByReligion()">Religion</button>
       <button onclick="showToday()">Today</button>
       <button onclick="showThisMonth()">Month</button>
       <!-- 
@@ -160,7 +160,7 @@
           <td>${row.Pname}</td>
           <td>${row.Address}</td>
           <td><a href="tel:${row.Whatsapp}">${row.Whatsapp}</a></td>
-          <td><a href="tel:${row.Whatsapp}">${row.Whatsapp}</a></td>
+          <td><a href="https://wa.me/${row.Whatsapp}" target="_blank">${row.Whatsapp}</a></td>
           <td>${row.Category}</td>
           <td>${row.Code}</td>
           <td>
@@ -210,15 +210,15 @@
       alert(text);
     }
 
-function showByCode() {
+function showByReligion() {
       const map = {};
       allData.forEach((d) => {
-        map[d.Code] = (map[d.code] || 0) + 1;
+        map[d.Category] = (map[d.Category] || 0) + 1;
       });
 
-      let text = "Code:\n";
-      Object.keys(map).forEach((Code) => {
-        text += `${Code}: ${map[Code]} student\n`;
+      let text = "Religion:\n";
+      Object.keys(map).forEach((Category) => {
+        text += `${Category}: ${map[Category]} student\n`;
       });
 
       alert(text);
