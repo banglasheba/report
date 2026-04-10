@@ -165,7 +165,9 @@
           <td>${row.Category}</td>
           
           <td>${row.Price}</td>
-          <td>${row.Details}</td>
+          <td>
+                <button onclick="alert('${row.Details.replace(/'/g, "\\'")}')">massege</button>
+            </td>
           <td>${row.Whatsapp}</td>
         `;
         tableBody.appendChild(tr);
