@@ -167,7 +167,9 @@
                 <button onclick="alert('${row.Description.replace(/'/g, "\\'")}')">massege</button>
             </td>
           <td>${row.Taka}</td>
-          <td>${row.Image}</td>
+          <td>
+                <button onclick="window.open('${row.Image}', '_blank')">View</button>
+            </td>
         `;
         tableBody.appendChild(tr);
       });
