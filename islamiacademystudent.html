@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>education of religion</title>
+  <title>job apply</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -89,13 +89,13 @@
 </head>
 <body>
   <div class="container">
-    <h2>student Of religion</h2>
+    <h2>job apply</h2>
 
     <!-- Top Buttons -->
     <div class="stats">
-      <button onclick="showTotalStudents()">Total ST</button>
-      <button onclick="showByDistrict()">Distric ST</button>
-      <button onclick="showByCode()">Code ST</button>
+      <button onclick="showTotalStudents()">Total</button>
+      <button onclick="showByDistrict()">Distric</button>
+      <button onclick="showByCode()">Code</button>
       <button onclick="showToday()">Today</button>
       <button onclick="showThisMonth()">Month</button>
       <!-- 
@@ -117,10 +117,10 @@
           <th>Name</th>
           <th>Address</th>
           <th>Phone</th>
-          <th>Institution</th>
+          <th>job</th>
           <th>Code</th>
-          <th>Religion</th>
-          <th>Price</th>
+          <th>Category</th>
+          <th>Taka</th>
           <th>Details</th>
           <th>Whatsapp</th>
         </tr>
@@ -136,8 +136,7 @@
 
   <script>
     const sheetURL =
-    const sheetURL =
-      "https://opensheet.elk.sh/1FUCNLl0RC4li5-3wrw2zP3ZR-2FPE8QiuFu9cRobl0o/Sheet2";
+      "https://opensheet.elk.sh/1uzehSN2lGI6gNlM8w3eHEEbyZ14UcoRCBuOldH0Rljc/Sheet2";
 
     let allData = [];
     let displayIndex = 0;
@@ -204,7 +203,7 @@
 
       let text = "Address:\n";
       Object.keys(map).forEach((Address) => {
-        text += `${Address}: ${map[Address]} student\n`;
+        text += `${Address}: ${map[Address]} people\n`;
       });
 
       alert(text);
@@ -218,7 +217,7 @@ function showByCode() {
 
       let text = "Code:\n";
       Object.keys(map).forEach((Code) => {
-        text += `${Code}: ${map[Code]} student\n`;
+        text += `${Code}: ${map[Code]} people\n`;
       });
 
       alert(text);
@@ -240,7 +239,7 @@ function showByCode() {
     );
   }).length;
 
-  alert(`Today: ${count} student`);
+  alert(`Today: ${count} people`);
 }
 
     function showThisMonth() {
@@ -256,7 +255,7 @@ function showByCode() {
         );
       }).length;
 
-      alert(`month: ${count} studen`);
+      alert(`month: ${count} people`);
     }
 
     function showTotalMoney() {
