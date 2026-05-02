@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Institution of religion</title>
+  <title>Institution of islami academy</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -89,13 +89,13 @@
 </head>
 <body>
   <div class="container">
-    <h2>Institution Of religion</h2>
+    <h2>Institution Of islami academy</h2>
 
     <!-- Top Buttons -->
     <div class="stats">
       <button onclick="showTotalStudents()">Total </button>
       <button onclick="showByDistrict()">Distric </button>
-      <button onclick="showByReligion()">Religion</button>
+      <button onclick="showByCategory()">Category</button>
       <button onclick="showToday()">Today</button>
       <button onclick="showThisMonth()">Month</button>
       <!-- 
@@ -118,7 +118,7 @@
           <th>Address</th>
           <th>Phone</th>
           <th>Whatsapp</th>
-          <th>Religion</th>
+          <th>Category</th>
           <th>Code</th>
           <th>Details</th>
           <th>Taka</th>
@@ -210,7 +210,7 @@
       alert(text);
     }
 
-function showByReligion() {
+function showByCategory() {
       const map = {};
       allData.forEach((d) => {
         map[d.Category] = (map[d.Category] || 0) + 1;
