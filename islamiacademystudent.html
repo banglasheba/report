@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>job apply</title>
+  <title>islami academy student</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -89,16 +89,32 @@
 </head>
 <body>
   <div class="container">
-    <h2>job apply</h2>
+    <h2>student of islami academy</h2>
 
     <!-- Top Buttons -->
+ <h2></h2>
+<p>Total: <span id="total">Loading...</span></p>
+<p>Today: <span id="today">Loading...</span></p>
+<p>Month: <span id="month">Loading...</span></p>
+
+<!-- h2>রক্তদাতা (সকল)</h2>
+<p>Total: <span id="total">Loading...</span></p-->
+
+<!-- Buttons -->
+<button onclick="showArea()">Area</button>
+<button onclick="showCategory()">Category</button>
+
+<!-- Data show -->
+<ul id="dataList"></ul>
+    
+    <!--
     <div class="stats">
       <button onclick="showTotalStudents()">Total</button>
       <button onclick="showByDistrict()">Distric</button>
       <button onclick="showByCode()">Code</button>
       <button onclick="showToday()">Today</button>
       <button onclick="showThisMonth()">Month</button>
-      <!-- 
+      
       <button onclick="showTotalMoney()">Total tk</button>
       <button onclick="showTotalDeposit()">joma</button>
     </div>
@@ -269,6 +285,114 @@ function showByCode() {
     }
 
     fetchData();
+
+    
   </script>
+
+ 
+
+<script>
+fetch("https://opensheet.elk.sh/1r3x6Mt1zPoz4PXmlB25R5qfzLmpO0XJU3MAIGg7MdeE/Sheet1")
+  .then(res => res.json())
+  .then(data => {
+
+    const today = new Date();
+    const todayStr = today.toISOString().split('T')[0];
+
+    const currentMonth = today.getMonth();
+    const currentYear = today.getFullYear();
+
+    let total = 0;
+    let todayCount = 0;
+    let monthCount = 0;
+
+    data.forEach(item => {
+
+      total++;
+
+      // Timestamp না থাকলে skip
+      if (!item.TimeStamp) return;
+
+      let itemDate = new Date(item.TimeStamp);
+
+      // invalid date skip
+      if (isNaN(itemDate)) return;
+
+      let itemDateStr = itemDate.toISOString().split('T')[0];
+
+      // আজকের count
+      if (itemDateStr === todayStr) {
+        todayCount++;
+      }
+
+      // এই মাসের count
+      if (
+        itemDate.getMonth() === currentMonth &&
+        itemDate.getFullYear() === currentYear
+      ) {
+        monthCount++;
+      }
+
+    });
+
+    document.getElementById("total").innerText = total;
+    document.getElementById("today").innerText = todayCount;
+    document.getElementById("month").innerText = monthCount;
+
+  })
+  .catch(err => {
+    console.error(err);
+    document.getElementById("total").innerText = "Error";
+  });
+
+
+
+
+
+// area count akhan theke suru
+let areaCount = {};
+let categoryCount = {};
+
+// Fetch data
+fetch("https://opensheet.elk.sh/1uzehSN2lGI6gNlM8w3eHEEbyZ14UcoRCBuOldH0Rljc/Sheet2")
+  .then(res => res.json())
+  .then(data => {
+
+    document.getElementById("total").innerText = data.length;
+
+    data.forEach(item => {
+
+      // Area count
+      if (item.Address) {
+        areaCount[item.Address] = (areaCount[item.Address] || 0) + 1;
+      }
+
+      // Category count
+      if (item.Category) {
+        categoryCount[item.Category] = (categoryCount[item.Category] || 0) + 1;
+      }
+
+    });
+
+  });
+
+// Show Area
+function showArea() {
+  let html = "";
+  for (let area in areaCount) {
+    html += `<li>${area}: ${areaCount[area]} জন</li>`;
+  }
+  document.getElementById("dataList").innerHTML = html;
+}
+
+// Show Category
+function showCategory() {
+  let html = "";
+  for (let cat in categoryCount) {
+    html += `<li>${cat}: ${categoryCount[cat]} জন</li>`;
+  }
+  document.getElementById("dataList").innerHTML = html;
+}
+</script>
 </body>
 </html>
