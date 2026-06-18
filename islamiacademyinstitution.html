@@ -85,20 +85,50 @@
     .load-more button:hover {
       background: #1e7e34;
     }
+    /*about button  */
+    .accordion-btn {
+  width:100%; padding:12px; text-align:center;
+  border:none; outline:none; background:#008080; color:white;
+  font-size:16px; margin-top:5px; border-radius:5px; cursor:pointer;
+}
+.modal {display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); justify-content:center; align-items:center;}
+    .modal-content {background:white; padding:20px; border-radius:10px; width:90%; max-width:700px;}
+    .modal-content input, textarea, select {width:100%; margin-bottom:10px; padding:8px; border:1px solid #ccc; border-radius:5px;}
+    .close {float:right; cursor:pointer; color:red;}
+
+    
   </style>
 </head>
 <body>
   <div class="container">
     <h2>Institution Of islami academy</h2>
 
-    <!-- Top Buttons -->
+
+     <!-- Top Buttons -->
+ <h2></h2>
+<p>Total: <span id="total">Loading...</span></p>
+    <!--
+<p>Today: <span id="today">Loading...</span></p>
+<p>Month: <span id="month">Loading...</span></p>
+
+<h2>রক্তদাতা (সকল)</h2>
+<p>Total: <span id="total">Loading...</span></p-->
+-->
+<!-- Buttons -->
+<button onclick="showArea()">Area</button>
+<button onclick="showCategory()">Category</button>
+<button class="donate-btn" onclick="openDonateForm()">Add ORG➕</button>
+    <button class="donate-btn" onclick="location.href='https://banglasheba.github.io/report/islamiacademystudent.html'">student</button>
+<!-- Data show -->
+<ul id="dataList"></ul>
+    <!-- Top Buttons 
     <div class="stats">
       <button onclick="showTotalStudents()">Total </button>
       <button onclick="showByDistrict()">Distric </button>
       <button onclick="showByCategory()">Category</button>
       <button onclick="showToday()">Today</button>
       <button onclick="showThisMonth()">Month</button>
-      <!-- 
+      
       <button onclick="showTotalMoney()">Total tk</button>
       <button onclick="showTotalDeposit()">joma</button>
     </div>
@@ -134,6 +164,139 @@
     </div>
   </div>
 
+<!-- Donate Form Modal -->
+  <div id="donateModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeDonateForm()">✖close</span>
+      <h3>স্বাগতম 🌹🌹</h3>
+      <input type="text" id="dPname" placeholder="প্রতিষ্ঠানের নাম ও ঠিকানা">
+      
+      <select id="dAddress" required>
+       <option value="">জেলা</option>
+        
+      <option>ঢাকা</option>
+<option>গাজীপুর</option>
+<option>নারায়ণগঞ্জ</option>
+<option>নরসিংদী</option>
+<option>মানিকগঞ্জ</option>
+<option>মুন্সীগঞ্জ</option>
+<option>টাঙ্গাইল</option>
+<option>কিশোরগঞ্জ</option>
+<option>ফরিদপুর</option>
+<option>রাজবাড়ী</option>
+<option>গোপালগঞ্জ</option>
+<option>মাদারীপুর</option>
+<option>শরীয়তপুর</option>
+
+<option>চট্টগ্রাম</option>
+<option>কক্সবাজার</option>
+<option>বান্দরবান</option>
+<option>রাঙামাটি</option>
+<option>খাগড়াছড়ি</option>
+<option>ফেনি</option>
+<option>নোয়াখালী</option>
+<option>লক্ষ্মীপুর</option>
+<option>চাঁদপুর</option>
+<option>ব্রাহ্মণবাড়িয়া</option>
+<option>কুমিল্লা</option>
+
+<option>রাজশাহী</option>
+<option>নাটোর</option>
+<option>নওগাঁ</option>
+<option>চাঁপাইনবাবগঞ্জ</option>
+<option>পাবনা</option>
+<option>সিরাজগঞ্জ</option>
+<option>বগুড়া</option>
+<option>জয়পুরহাট</option>
+
+<option>খুলনা</option>
+<option>যশোর</option>
+<option>সাতক্ষীরা</option>
+<option>বাগেরহাট</option>
+<option>নড়াইল</option>
+<option>মাগুরা</option>
+<option>ঝিনাইদহ</option>
+<option>কুষ্টিয়া</option>
+<option>মেহেরপুর</option>
+<option>চুয়াডাঙ্গা</option>
+
+<option>বরিশাল</option>
+<option>ভোলা</option>
+<option>পটুয়াখালী</option>
+<option>পিরোজপুর</option>
+<option>ঝালকাঠি</option>
+<option>বরগুনা</option>
+
+<option>সিলেট</option>
+<option>মৌলভীবাজার</option>
+<option>হবিগঞ্জ</option>
+<option>সুনামগঞ্জ</option>
+
+<option>রংপুর</option>
+<option>দিনাজপুর</option>
+<option>ঠাকুরগাঁও</option>
+<option>পঞ্চগড়</option>
+<option>নীলফামারী</option>
+<option>লালমনিরহাট</option>
+<option>কুড়িগ্রাম</option>
+<option>গাইবান্ধা</option>
+
+<option>ময়মনসিংহ</option>
+<option>জামালপুর</option>
+<option>শেরপুর</option>
+<option>নেত্রকোনা</option>
+        
+        
+      </select>
+    
+      <select id="dCategory" required>
+        <option value="">কেটাগরি নির্বাচন  </option>
+        <option>মক্তব</option>
+      
+<option>নূরানী শিক্ষা</option>
+<option>কুরআন তিলাওয়াত</option>
+<option>তাজবীদ শিক্ষা</option>
+<option>হিফজুল কুরআন/দাউর</option>
+<option>নাজেরা কুরআন</option>
+<option>কুরআন অনুবাদ শিক্ষা</option>
+<option>তাফসীর শিক্ষা</option>
+<option>হাদিস শিক্ষা</option>
+<option>ফিকহ শিক্ষা</option>
+<option>আকীদা শিক্ষা</option>
+<option>আরবি ভাষা শিক্ষা</option>
+<option>ইসলামি ইতিহাস</option>
+<option>সীরাতুন্নবী (সা.)</option>
+<option>দোয়া ও সুন্নাহ শিক্ষা</option>
+<option>ইসলামি আদব-আখলাক</option>
+<option>ইসলামি পারিবারিক শিক্ষা</option>
+<option>নারীদের ইসলামি শিক্ষা</option>
+<option>শিশুদের ইসলামি শিক্ষা</option>
+<option>কিশোর-কিশোরী ইসলামি শিক্ষা</option>
+<option>প্রাপ্তবয়স্কদের ইসলামি শিক্ষা</option>
+<option>ইমাম ও মুয়াজ্জিন প্রশিক্ষণ</option>
+<option>দাওয়াহ ও তাবলীগ প্রশিক্ষণ</option>
+<option>ইসলামি বক্তৃতা প্রশিক্ষণ</option>
+<option>ইসলামি নেতৃত্ব প্রশিক্ষণ</option>
+<option>ইসলামি অর্থনীতি ও ব্যাংকিং</option>
+<option>যাকাত ও ওয়াকফ শিক্ষা</option>
+<option>ইসলামি কাউন্সেলিং</option>
+
+<option>বিশেষায়িত আলেম কোর্স</option>
+
+      </select>
+      
+      
+
+      <input type="text" id="dCode" placeholder="প্রতিষ্ঠান কোড(৬ডিজিট)">
+      <textarea id="dDescription" placeholder="প্রতিষ্ঠান সম্পর্কে "></textarea>
+      <input type="text" id="dTaka" placeholder="ফি(সর্বোচ্চ৩০০৳) ">
+     <input type="text" id="dWhatsapp" placeholder="WhatsApp 880 সহ">
+      
+      <input type="text" id="dImage" placeholder="প্রতিষ্ঠান প্রোফাইল লিংক ">
+      <button class="order-btn" onclick="submitDonate()">সাবমিট</button>
+    </div>
+  </div>
+  
   <script>
     const sheetURL =
       "https://opensheet.elk.sh/1uzehSN2lGI6gNlM8w3eHEEbyZ14UcoRCBuOldH0Rljc/Sheet1";
@@ -210,6 +373,16 @@
       alert(text);
     }
 
+ // Donate Form
+    function openDonateForm(){document.getElementById("donateModal").style.display="flex";}
+    function closeDonateForm(){document.getElementById("donateModal").style.display="none";}
+    function submitDonate(){
+      const d={Pname:dPname.value,Address:dAddress.value,Whatsapp:dWhatsapp.value,Category:dCategory.value,Code:dCode.value,Description:dDescription.value,Taka:dTaka.value,Image:dImage.value};
+      fetch("https://script.google.com/macros/s/AKfycbzHIzKP-sxQFWpvAHcmrbDrIVhdhjSdlftE4qfIs5FTQ_Diu2bBdYIRTqNRZCTpZZSXxQ/exec",{method:"POST",body:JSON.stringify(d)})
+      .then(()=>{alert(" Islami Academy  has been added,but sometime under review  ");closeDonateForm();});
+    }
+
+    
 function showByCategory() {
       const map = {};
       allData.forEach((d) => {
@@ -271,5 +444,110 @@ function showByCategory() {
 
     fetchData();
   </script>
+
+<script>
+fetch("https://opensheet.elk.sh/1uzehSN2lGI6gNlM8w3eHEEbyZ14UcoRCBuOldH0Rljc/Sheet1")
+  .then(res => res.json())
+  .then(data => {
+
+    const today = new Date();
+    const todayStr = today.toISOString().split('T')[0];
+
+    const currentMonth = today.getMonth();
+    const currentYear = today.getFullYear();
+
+    let total = 0;
+    let todayCount = 0;
+    let monthCount = 0;
+
+    data.forEach(item => {
+
+      total++;
+
+      // Timestamp না থাকলে skip
+      if (!item.TimeStamp) return;
+
+      let itemDate = new Date(item.TimeStamp);
+
+      // invalid date skip
+      if (isNaN(itemDate)) return;
+
+      let itemDateStr = itemDate.toISOString().split('T')[0];
+
+      // আজকের count
+      if (itemDateStr === todayStr) {
+        todayCount++;
+      }
+
+      // এই মাসের count
+      if (
+        itemDate.getMonth() === currentMonth &&
+        itemDate.getFullYear() === currentYear
+      ) {
+        monthCount++;
+      }
+
+    });
+
+    document.getElementById("total").innerText = total;
+    document.getElementById("today").innerText = todayCount;
+    document.getElementById("month").innerText = monthCount;
+
+  })
+  .catch(err => {
+    console.error(err);
+    document.getElementById("total").innerText = "Error";
+  });
+
+
+
+
+
+// area count akhan theke suru
+let areaCount = {};
+let categoryCount = {};
+
+// Fetch data
+fetch("https://opensheet.elk.sh/1uzehSN2lGI6gNlM8w3eHEEbyZ14UcoRCBuOldH0Rljc/Sheet1")
+  .then(res => res.json())
+  .then(data => {
+
+    document.getElementById("total").innerText = data.length;
+
+    data.forEach(item => {
+
+      // Area count
+      if (item.Address) {
+        areaCount[item.Address] = (areaCount[item.Address] || 0) + 1;
+      }
+
+      // Category count
+      if (item.Category) {
+        categoryCount[item.Category] = (categoryCount[item.Category] || 0) + 1;
+      }
+
+    });
+
+  });
+
+// Show Area
+function showArea() {
+  let html = "";
+  for (let area in areaCount) {
+    html += `<li>${area}: ${areaCount[area]} জন</li>`;
+  }
+  document.getElementById("dataList").innerHTML = html;
+}
+
+// Show Category
+function showCategory() {
+  let html = "";
+  for (let cat in categoryCount) {
+    html += `<li>${cat}: ${categoryCount[cat]} জন</li>`;
+  }
+  document.getElementById("dataList").innerHTML = html;
+}
+</script>
+  
 </body>
 </html>
