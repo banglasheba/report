@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Moctob</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      margin: auto;
+      padding: 0;
+    }
+    .container {
+      border: 4px;
+      border-radius: 10px;
+
+      width: 100%;
+      margin: auto;
+      padding: 20px;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #222;
+    }
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+      justify-content: center;
+    }
+    .stats button {
+      padding: 10px 15px;
+      border: none;
+      background: #007bff;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .stats button:hover {
+      background: #0056b3;
+    }
+    .search-box {
+      margin-bottom: 15px;
+      text-align: center;
+    }
+    .search-box input {
+      width: 90%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      table-layout: auto;
+    }
+    th, td {
+      border: 2px solid #555;
+      padding: 10px;
+      text-align: center;
+      white-space: nowrap;
+      min-width: 40px;
+      font-weight: bold;
+    }
+    th {
+      background: #333;
+      color: white;
+    }
+    .load-more {
+      text-align: center;
+      margin: 20px 0;
+    }
+    .load-more button {
+      padding: 10px 15px;
+      border: none;
+      background: #28a745;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .load-more button:hover {
+      background: #1e7e34;
+    }
+    /*about button  */
+    .accordion-btn {
+  width:100%; padding:12px; text-align:center;
+  border:none; outline:none; background:#008080; color:white;
+  font-size:16px; margin-top:5px; border-radius:5px; cursor:pointer;
+}
+.modal {display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); justify-content:center; align-items:center;}
+    .modal-content {background:white; padding:20px; border-radius:10px; width:90%; max-width:700px;}
+    .modal-content input, textarea, select {width:100%; margin-bottom:10px; padding:8px; border:1px solid #ccc; border-radius:5px;}
+    .close {float:right; cursor:pointer; color:red;}
+
+    
+    .header{
+    background:linear-gradient(135deg,#0f766e,#14b8a6);
+    color:white;
+    padding:20px;
+    border-radius:18px;
+    text-align:center;
+    margin-bottom:15px;
+}
+
+.header-title{
+    font-size:15px;
+}
+
+.header-code{
+    font-size:30px;
+    font-weight:800;
+    margin-top:5px;
+}
+
+
+/* =========================
+   GRID
+========================= */
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+}
+
+
+/* =========================
+   CARD
+========================= */
+
+.box{
+    background:white;
+    border-radius:16px;
+    padding:18px 10px;
+    text-align:center;
+    box-shadow:0 5px 18px rgba(0,0,0,.08);
+    border:1px solid #e2e8f0;
+}
+
+.title{
+    color:#64748b;
+    font-size:14px;
+    margin-bottom:8px;
+}
+
+.value{
+    font-size:23px;
+    font-weight:800;
+    color:#0f172a;
+}
+
+
+/* =========================
+   COLORS
+========================= */
+
+.total{
+    color:#047857;
+}
+
+.paid{
+    color:#15803d;
+}
+
+.percent{
+    color:#7c3aed;
+}
+
+.notpaid{
+    color:#dc2626;
+}
+
+
+/* =========================
+   STUDENT COUNT
+========================= */
+
+.student-count{
+    margin-top:12px;
+    background:white;
+    border-radius:16px;
+    padding:18px;
+    text-align:center;
+    box-shadow:0 5px 18px rgba(0,0,0,.08);
+}
+
+.student-number{
+    font-size:27px;
+    font-weight:800;
+    margin-top:5px;
+}
+
+
+/* =========================
+   LOADING
+========================= */
+
+.loading{
+    background:white;
+    border-radius:16px;
+    padding:40px 20px;
+    text-align:center;
+    color:#64748b;
+}
+
+
+/* =========================
+   ERROR
+========================= */
+
+.error{
+    background:white;
+    border-radius:16px;
+    padding:30px 20px;
+    text-align:center;
+    color:#dc2626;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:480px){
+
+    body{
+        padding:10px;
+    }
+
+    .grid{
+        gap:8px;
+    }
+
+    .box{
+        padding:15px 7px;
+    }
+
+    .title{
+        font-size:13px;
+    }
+
+    .value{
+        font-size:19px;
+    }
+
+    .header-code{
+        font-size:26px;
+    }
+
+}
+    
+    
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>moktob</h2>
+
+
+     <!-- Top Buttons -->
+ <h2></h2>
+<p>Total: <span id="total">Loading...</span></p>
+    
+<p>Today: <span id="today">Loading...</span></p>
+<p>Month: <span id="month">Loading...</span></p>
+<!--
+<h2>রক্তদাতা (সকল)</h2>
+<p>Total: <span id="total">Loading...</span></p-->
+-->
+<!-- Buttons -->
+<button onclick="showArea()">Area</button>
+<button onclick="showCategory()">Category</button>
+
+<!-- Data show -->
+<ul id="dataList"></ul>
+    
+    
+    <div class="account" id="account">
+
+    <div class="loading">
+        হিসাব লোড হচ্ছে...
+    </div>
+
+</div>
+    <!-- Top Buttons 
+    <div class="stats">
+      <button onclick="showTotalStudents()">Total </button>
+      <button onclick="showByDistrict()">Distric </button>
+      <button onclick="showByCategory()">Category</button>
+      <button onclick="showToday()">Today</button>
+      <button onclick="showThisMonth()">Month</button>
+      
+      <button onclick="showTotalMoney()">Total tk</button>
+      <button onclick="showTotalDeposit()">joma</button>
+    </div>
+      -->
+
+    <!-- Search Box -->
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder=" সার্চ করুন" onkeyup="searchTable()" />
+    </div>
+
+    <!-- Data Table -->
+    <table id="dataTable">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Name</th>
+           <th>Father</th>
+          <th>Mother</th>
+           <th>Area</th>
+          <th>Address</th>
+          <th>Phone</th>
+          <th>Whatsapp</th>
+          <th>Age</th>
+          <th>Time</th>
+          <th>Details</th>
+          <th>Sender</th>
+          <th>Amount</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+
+    <!-- Load More Button -->
+    <div class="load-more">
+      <button id="loadMoreBtn" onclick="loadMore()">Load More</button>
+    </div>
+  </div>
+
+
+  <script>
+    const sheetURL =
+      "https://opensheet.elk.sh/1uzehSN2lGI6gNlM8w3eHEEbyZ14UcoRCBuOldH0Rljc/Sheet3";
+
+    let allData = [];
+    let displayIndex = 0;
+    const batchSize = 50;
+
+    async function fetchData() {
+      const res = await fetch(sheetURL);
+      allData = await res.json();
+      loadMore();
+    }
+
+    function loadMore() {
+      const tableBody = document.getElementById("tableBody");
+      const nextIndex = displayIndex + batchSize;
+      const chunk = allData.slice(displayIndex, nextIndex);
+
+      chunk.forEach((row) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${row.TimeStamp}</td>
+          <td>${row.Pname}</td>
+           <td>${row.Father}</td>
+           <td>${row.Mother}</td>
+            <td>${row.Code}</td>
+          <td>${row.Address}</td>
+          <td><a href="tel:${row.Phone}">${row.Phone}</a></td>
+          <td><a href="https://wa.me/${row.Phone}" target="_blank">${row.Phone}</a></td>
+          <td>${row.Age}</td>
+          <td>${row.Time}</td>
+          <td>
+                <button onclick="alert('${row.Description.replace(/'/g, "\\'")}')">massege</button>
+            </td>
+          <td>${row.TransactionID}</td>
+         <td>${row.Paid}</td>
+        `;
+        tableBody.appendChild(tr);
+      });
+
+      displayIndex = nextIndex;
+
+      if (displayIndex >= allData.length) {
+        document.getElementById("loadMoreBtn").style.display = "none";
+      }
+    }
+/*  <td>
+                <button onclick="window.open('${row.Image}', '_blank')">View</button>
+            </td> */
+    
+    function searchTable() {
+      const value = document.getElementById("searchInput").value.toLowerCase();
+      const rows = document.querySelectorAll("#dataTable tbody tr");
+
+      rows.forEach((row) => {
+        row.style.display = row.innerText.toLowerCase().includes(value)
+          ? ""
+          : "none";
+      });
+    }
+
+    function showTotalStudents() {
+      alert(`Total: ${allData.length}`);
+    }
+
+    function showByDistrict() {
+      const map = {};
+      allData.forEach((d) => {
+        map[d.Address] = (map[d.Address] || 0) + 1;
+      });
+
+      let text = "Address:\n";
+      Object.keys(map).forEach((Address) => {
+        text += `${Address}: ${map[Address]} student\n`;
+      });
+
+      alert(text);
+    }
+
+ 
+    
+function showByCategory() {
+      const map = {};
+      allData.forEach((d) => {
+        map[d.Category] = (map[d.Category] || 0) + 1;
+      });
+
+      let text = "Religion:\n";
+      Object.keys(map).forEach((Category) => {
+        text += `${Category}: ${map[Category]} student\n`;
+      });
+
+      alert(text);
+    }
+
+    
+    function showToday() {
+  const now = new Date();
+  const d = now.getDate();
+  const m = now.getMonth();
+  const y = now.getFullYear();
+
+  const count = allData.filter((row) => {
+    const t = new Date(row.Timestamp);
+    return (
+      t.getDate() === d &&
+      t.getMonth() === m &&
+      t.getFullYear() === y
+    );
+  }).length;
+
+  alert(`Today: ${count} student`);
+}
+
+    function showThisMonth() {
+      const now = new Date();
+      const month = now.getMonth() + 1;
+      const year = now.getFullYear();
+
+      const count = allData.filter((d) => {
+        const date = new Date(d.Timestamp);
+        return (
+          date.getMonth() + 1 === month &&
+          date.getFullYear() === year
+        );
+      }).length;
+
+      alert(`month: ${count} studen`);
+    }
+
+    function showTotalMoney() {
+      const total = allData.reduce((sum, d) => sum + Number(d.Taka || 0), 0);
+      alert(`Total tk: ${total} tk`);
+    }
+
+    function showTotalDeposit() {
+      const total = allData.reduce((sum, d) => sum + Number(d.Joma || 0), 0);
+      alert(`joma: ${total} tk`);
+    }
+
+    fetchData();
+  </script>
+
+<script>
+fetch("https://opensheet.elk.sh/1uzehSN2lGI6gNlM8w3eHEEbyZ14UcoRCBuOldH0Rljc/Sheet1")
+  .then(res => res.json())
+  .then(data => {
+
+    const today = new Date();
+    const todayStr = today.toISOString().split('T')[0];
+
+    const currentMonth = today.getMonth();
+    const currentYear = today.getFullYear();
+
+    let total = 0;
+    let todayCount = 0;
+    let monthCount = 0;
+
+    data.forEach(item => {
+
+      total++;
+
+      // Timestamp না থাকলে skip
+      if (!item.TimeStamp) return;
+
+      let itemDate = new Date(item.TimeStamp);
+
+      // invalid date skip
+      if (isNaN(itemDate)) return;
+
+      let itemDateStr = itemDate.toISOString().split('T')[0];
+
+      // আজকের count
+      if (itemDateStr === todayStr) {
+        todayCount++;
+      }
+
+      // এই মাসের count
+      if (
+        itemDate.getMonth() === currentMonth &&
+        itemDate.getFullYear() === currentYear
+      ) {
+        monthCount++;
+      }
+
+    });
+
+    document.getElementById("total").innerText = total;
+    document.getElementById("today").innerText = todayCount;
+    document.getElementById("month").innerText = monthCount;
+
+  })
+  .catch(err => {
+    console.error(err);
+    document.getElementById("total").innerText = "Error";
+  });
+
+
+
+
+
+// area count akhan theke suru
+let areaCount = {};
+let categoryCount = {};
+
+// Fetch data
+fetch("https://opensheet.elk.sh/1uzehSN2lGI6gNlM8w3eHEEbyZ14UcoRCBuOldH0Rljc/Sheet1")
+  .then(res => res.json())
+  .then(data => {
+
+    document.getElementById("total").innerText = data.length;
+
+    data.forEach(item => {
+
+      // Area count
+      if (item.Area) {
+        areaCount[item.Area] = (areaCount[item.Area] || 0) + 1;
+      }
+
+      // Category count
+      if (item.Category) {
+        categoryCount[item.Category] = (categoryCount[item.Category] || 0) + 1;
+      }
+
+    });
+
+  });
+
+// Show Area
+function showArea() {
+  let html = "";
+  for (let area in areaCount) {
+    html += `<li>${area}: ${areaCount[area]} জন</li>`;
+  }
+  document.getElementById("dataList").innerHTML = html;
+}
+
+// Show Category
+function showCategory() {
+  let html = "";
+  for (let cat in categoryCount) {
+    html += `<li>${cat}: ${categoryCount[cat]} জন</li>`;
+  }
+  document.getElementById("dataList").innerHTML = html;
+}
+</script>
+  
+  <script>
+
+/* =====================================================
+   GOOGLE SHEET SETTINGS
+===================================================== */
+
+
+/*
+   আপনার Google Sheet URL এখানে দিন
+*/
+
+const SHEET_URL =
+"https://docs.google.com/spreadsheets/d/1uzehSN2lGI6gNlM8w3eHEEbyZ14UcoRCBuOldH0Rljc/edit?usp=sharing";
+
+
+/*
+   আপনার Sheet-এর নাম
+*/
+
+const SHEET_NAME = "Sheet1";
+
+
+/* =====================================================
+   GOOGLE SHEET ID
+===================================================== */
+
+function getSheetId(url){
+
+    const match = url.match(
+        /\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/
+    );
+
+    if(!match){
+
+        throw new Error(
+            "Google Sheet ID পাওয়া যায়নি"
+        );
+
+    }
+
+    return match[1];
+
+}
+
+
+/* =====================================================
+   SHEET ID
+===================================================== */
+
+let SHEET_ID = "";
+
+try{
+
+    SHEET_ID = getSheetId(SHEET_URL);
+
+}
+catch(error){
+
+    console.error(error);
+
+}
+
+
+/* =====================================================
+   OPENSHEET API
+===================================================== */
+
+const API_URL =
+SHEET_ID
+?
+`https://opensheet.elk.sh/${SHEET_ID}/${encodeURIComponent(SHEET_NAME)}`
+:
+"";
+
+
+/* =====================================================
+   NUMBER CONVERTER
+===================================================== */
+
+function number(value){
+
+    if(
+        value === undefined ||
+        value === null ||
+        value === ""
+    ){
+
+        return 0;
+
+    }
+
+
+    let text = String(value)
+        .trim()
+        .replace(/,/g,"");
+
+
+    /*
+       বাংলা সংখ্যা থাকলেও
+       English number-এ convert করবে
+    */
+
+    const bangla =
+        "০১২৩৪৫৬৭৮৯";
+
+    const english =
+        "0123456789";
+
+
+    text = text.replace(
+        /[০-৯]/g,
+        function(char){
+
+            return english[
+                bangla.indexOf(char)
+            ];
+
+        }
+    );
+
+
+    const result =
+        parseFloat(text);
+
+
+    return isNaN(result)
+        ? 0
+        : result;
+
+}
+
+
+/* =====================================================
+   MONEY FORMAT
+===================================================== */
+
+function money(amount){
+
+    return new Intl.NumberFormat("bn-BD")
+        .format(amount) + " টাকা";
+
+}
+
+
+/* =====================================================
+   DATA LOAD
+===================================================== */
+
+async function loadData(){
+
+    const container =
+        document.getElementById("account");
+
+
+    try{
+
+        /* =========================
+           CHECK API
+        ========================= */
+
+        if(!API_URL){
+
+            throw new Error(
+                "Google Sheet URL ঠিক নেই"
+            );
+
+        }
+
+
+        /* =========================
+           FETCH OPENSHEET
+        ========================= */
+
+        const response =
+            await fetch(API_URL);
+
+
+        if(!response.ok){
+
+            throw new Error(
+                "OpenSheet থেকে Data পাওয়া যায়নি"
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        /* =================================================
+           এখানে সমস্ত Sheet-এর শিক্ষার্থী হিসাব হবে
+        ================================================= */
+
+
+        let totalMoney = 0;
+
+        let totalPaid = 0;
+
+        let paidStudents = 0;
+
+        let notPaidStudents = 0;
+
+
+        /* =================================================
+           প্রতিটি শিক্ষার্থী
+        ================================================= */
+
+        data.forEach(function(student){
+
+
+            /* =========================
+               Fee
+            ========================= */
+
+            const fee =
+                number(student.Fee);
+
+
+            /* =========================
+               Paid
+            ========================= */
+
+            const paid =
+                number(student.Paid);
+
+
+            /* =========================
+               মোট টাকা
+            ========================= */
+
+            totalMoney += fee;
+
+
+            /* =========================
+               মোট জমা
+            ========================= */
+
+            totalPaid += paid;
+
+
+            /* =========================
+               জমা করেছে / করেনি
+            ========================= */
+
+
+            /*
+               Paid 0-এর বেশি হলে
+               জমা করেছে ধরা হবে
+            */
+
+            if(paid > 0){
+
+                paidStudents++;
+
+            }
+            else{
+
+                notPaidStudents++;
+
+            }
+
+        });
+
+
+        /* =================================================
+           30% হিসাব
+        ================================================= */
+
+        const total30 =
+            totalMoney * 30 / 100;
+
+
+        const paid30 =
+            totalPaid * 30 / 100;
+
+
+        /* =================================================
+           RESULT SHOW
+        ================================================= */
+
+        container.innerHTML = `
+
+            <!-- HEADER -->
+
+            <div class="header">
+
+                <div class="header-title">
+                    শিক্ষার্থীদের মোট হিসাব
+                </div>
+
+                <div class="header-code">
+                    সকল শিক্ষার্থী
+                </div>
+
+            </div>
+             <!-- মোট শিক্ষার্থী -->
+
+            <div class="student-count">
+
+                <div>
+                    মোট শিক্ষার্থী
+                </div>
+
+                <div class="student-number">
+                    ${data.length} জন
+                </div>
+
+            </div>
+
+
+            <!-- হিসাব -->
+
+            <div class="grid">
+
+
+                <!-- মোট টাকা -->
+
+                <div class="box">
+
+                    <div class="title">
+                        মোট টাকা
+                    </div>
+
+                    <div class="value total">
+                        ${money(totalMoney)}
+                    </div>
+
+                </div>
+
+
+                <!-- জমা -->
+
+                <div class="box">
+
+                    <div class="title">
+                        জমা
+                    </div>
+
+                    <div class="value paid">
+                        ${money(totalPaid)}
+                    </div>
+
+                </div>
+
+
+                <!-- মোট টাকার ৩০% -->
+
+                <div class="box">
+
+                    <div class="title">
+                        মোট টাকার ৩০%
+                    </div>
+
+                    <div class="value percent">
+                        ${money(total30)}
+                    </div>
+
+                </div>
+
+
+                <!-- জমার ৩০% -->
+
+                <div class="box">
+
+                    <div class="title">
+                        জমার ৩০%
+                    </div>
+
+                    <div class="value percent">
+                        ${money(paid30)}
+                    </div>
+
+                </div>
+
+
+                <!-- জমা করেছে -->
+
+                <div class="box">
+
+                    <div class="title">
+                        জমা করেছে
+                    </div>
+
+                    <div class="value paid">
+                        ${paidStudents} জন
+                    </div>
+
+                </div>
+
+
+                <!-- জমা করেনি -->
+
+                <div class="box">
+
+                    <div class="title">
+                        জমা করেনি
+                    </div>
+
+                    <div class="value notpaid">
+                        ${notPaidStudents} জন
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+           
+
+        `;
+
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        container.innerHTML = `
+
+            <div class="error">
+
+                হিসাব লোড করা যাচ্ছে না।
+
+                <br><br>
+
+                Google Sheet URL,
+                Sheet Name এবং
+                Header পরীক্ষা করুন।
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* =====================================================
+   START
+===================================================== */
+
+loadData();
+
+</script>
+  
+  
+</body>
+</html>
